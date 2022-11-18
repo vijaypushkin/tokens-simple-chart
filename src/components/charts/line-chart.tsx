@@ -51,9 +51,20 @@ const LineChart: React.FC<ILineChartProps> = ({
     <RCLineChart width={500} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey={xAxisDataKey} padding={{ left: 30, right: 30 }} />
-      <YAxis />
+      <YAxis domain={[16680, "auto"]} />
       <Tooltip />
       <Legend />
+      {/*<Line*/}
+      {/*  type="monotone"*/}
+      {/*  dataKey={"price"}*/}
+      {/*  // key={line}*/}
+      {/*  stroke={"blue"}*/}
+      {/*  activeDot={false}*/}
+      {/*  dot={false}*/}
+      {/*  strokeWidth={2}*/}
+      {/*  // onMouseEnter={handleMouseEnter(line)}*/}
+      {/*  // onMouseLeave={handleMouseLeave(line)}*/}
+      {/*/>*/}
       {requiredLines.map((line) => (
         <Line
           type="monotone"
