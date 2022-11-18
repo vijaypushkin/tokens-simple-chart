@@ -132,7 +132,7 @@ const Charts = () => {
   }, [resultsUpdatedAt.join(","), resultsStatus.join(","), tokens.length]);
 
   return (
-    <Card>
+    <Card shadow="sm" p="lg" radius="md" withBorder sx={{ marginBottom: 24 }}>
       <Card.Section p="lg" sx={{ width: 600 }}>
         <LineChart
           data={allData}

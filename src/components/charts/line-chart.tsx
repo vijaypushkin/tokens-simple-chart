@@ -1,14 +1,14 @@
 import React from "react";
 import {
-  LineChart as RCLineChart,
+  Customized,
   Line,
+  LineChart as RCLineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
 } from "recharts";
 import { COLOR_SET_2 } from "../../constants/colors";
+import RenderLegends from "./line-chart-legend";
 
 interface ILineChartProps {
   data: any[];
@@ -22,14 +22,13 @@ const LineChart: React.FC<ILineChartProps> = ({
   requiredLines,
 }) => {
   const [hoveredLine, setHoveredLine] = React.useState<string | null>(null);
+  const [isTooltipActive, setIsTooltipActive] = React.useState<boolean>(false);
 
   const handleMouseEnter = (line: string) => () => {
-    console.log(line, "mouse enter");
     setHoveredLine(line);
   };
 
-  const handleMouseLeave = (line: string) => () => {
-    console.log(line, "mouse leave");
+  const handleMouseLeave = () => () => {
     setHoveredLine(null);
   };
 
@@ -49,33 +48,29 @@ const LineChart: React.FC<ILineChartProps> = ({
 
   return (
     <RCLineChart width={500} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey={xAxisDataKey} padding={{ left: 30, right: 30 }} />
-      <YAxis domain={[16680, "auto"]} />
-      <Tooltip />
-      <Legend />
-      {/*<Line*/}
-      {/*  type="monotone"*/}
-      {/*  dataKey={"price"}*/}
-      {/*  // key={line}*/}
-      {/*  stroke={"blue"}*/}
-      {/*  activeDot={false}*/}
-      {/*  dot={false}*/}
-      {/*  strokeWidth={2}*/}
-      {/*  // onMouseEnter={handleMouseEnter(line)}*/}
-      {/*  // onMouseLeave={handleMouseLeave(line)}*/}
-      {/*/>*/}
+      <YAxis domain={[0.8, 1.2]} />
+      <Tooltip
+        cursor={false}
+        wrapperStyle={isTooltipActive ? {} : { display: "none" }}
+      />
+      <Customized
+        component={RenderLegends({
+          handleMouseEnter,
+          handleMouseLeave,
+          setIsTooltipActive,
+        })}
+      />
       {requiredLines.map((line) => (
         <Line
           type="monotone"
           dataKey={line}
           key={line}
           stroke={getLineStroke(line)}
-          activeDot={false}
           dot={false}
           strokeWidth={2}
           onMouseEnter={handleMouseEnter(line)}
-          onMouseLeave={handleMouseLeave(line)}
+          onMouseLeave={handleMouseLeave()}
         />
       ))}
     </RCLineChart>
